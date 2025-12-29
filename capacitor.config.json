@@ -1,0 +1,9 @@
+{
+  "appId": "com.jeeran.myapp",
+  "appName": "jeeran",
+  "webDir": "dist",
+  "server": {
+    "cleartext": true,
+    "androidScheme": "http"
+  }
+}
