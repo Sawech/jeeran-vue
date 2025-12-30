@@ -42,7 +42,7 @@
                 {{ errorMessage }}
               </div>
               <div class="text-gray-400 fw-bold fs-4">
-                لديك حساب بالفعل؟
+                لديك حساب؟
                 <router-link to="/login" class="link-primary fw-bolder"
                   >تسجيل الدخول</router-link
                 >
