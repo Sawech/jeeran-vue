@@ -30,11 +30,18 @@ export default createStore({
   actions: {
     login({ commit }, authData) {
       axios
-        .post("auth/login", {
-          mobile_or_email: authData.mobile_or_email,
-          password: authData.password,
-          loginType: "admin",
-        })
+        .post(
+          "auth/login",
+          {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*",
+          },
+          {
+            mobile_or_email: authData.mobile_or_email,
+            password: authData.password,
+            loginType: "admin",
+          }
+        )
         .then((response) => {
           console.log("response =", response);
           if (response.data.code == 200) {
@@ -119,14 +126,14 @@ export default createStore({
           });
         });
 
-      axios
-        .post("api/auth/login", {
-          mobile_or_email: authData.mobile_or_email,
-          password: authData.password,
-          loginType: "admin",
-        })
-        .then((response) => console.log("reseponse 2 =", response))
-        .catch((err) => console.log("err =", err.response));
+      // axios
+      //   .post("auth/login", {
+      //     mobile_or_email: authData.mobile_or_email,
+      //     password: authData.password,
+      //     loginType: "admin",
+      //   })
+      //   .then((response) => console.log("reseponse 2 =", response))
+      //   .catch((err) => console.log("err =", err.response));
     },
 
     tryAutoLogin({ commit }) {
