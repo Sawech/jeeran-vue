@@ -36,6 +36,7 @@ export default createStore({
           loginType: "admin",
         })
         .then((response) => {
+          console.log("response =", response);
           if (response.data.code == 200) {
             console.log("hiiiii");
             const token = "Bearer" + " " + response.data.data.access_token;
@@ -104,8 +105,29 @@ export default createStore({
           }
         })
         .catch((error) => {
+          console.log("response =", response);
           console.log("Login error:", error.response);
+          console.error("Axios Response Error:", {
+            url: error.config ? error.config.url : "unknown",
+            message: error.message,
+            response: error.response
+              ? {
+                  status: error.response.status,
+                  headers: error.response.headers,
+                  data: error.response.data,
+                }
+              : "No response",
+          });
         });
+
+      axios
+        .post("auth/login", {
+          mobile_or_email: authData.mobile_or_email,
+          password: authData.password,
+          loginType: "admin",
+        })
+        .then((response) => console.log("reseponse 2 =", response))
+        .catch((err) => console.log("err =", err.response));
     },
 
     tryAutoLogin({ commit }) {
