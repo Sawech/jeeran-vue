@@ -35,6 +35,7 @@ export default createStore({
           {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*",
+            Host: "jeraan-1.onrender.com",
           },
           {
             mobile_or_email: authData.mobile_or_email,
