@@ -36,7 +36,7 @@ export default createStore({
           loginType: "admin",
         })
         .then((response) => {
-          console.log("response =", response);
+          console.log("response =", response.data);
           if (response.data.code == 200) {
             console.log("hiiiii");
             const token = "Bearer" + " " + response.data.data.access_token;
@@ -120,14 +120,14 @@ export default createStore({
           });
         });
 
-      axios
-        .post("auth/login", {
-          mobile_or_email: authData.mobile_or_email,
-          password: authData.password,
-          loginType: "admin",
-        })
-        .then((response) => console.log("reseponse 2 =", response))
-        .catch((err) => console.log("err =", err.response));
+      // axios
+      //   .post("auth/login", {
+      //     mobile_or_email: authData.mobile_or_email,
+      //     password: authData.password,
+      //     loginType: "admin",
+      //   })
+      //   .then((response) => console.log("reseponse 2 =", response))
+      //   .catch((err) => console.log("err =", err.response));
     },
 
     tryAutoLogin({ commit }) {
