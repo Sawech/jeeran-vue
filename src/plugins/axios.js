@@ -2,7 +2,8 @@ import axios from "axios";
 import store from "../store";
 
 axios.defaults.baseURL = process.env.VUE_APP_API;
-
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
 // Set authorization token if exists
 const token = localStorage.getItem("token");
 if (token && token !== "Bearer undefined") {

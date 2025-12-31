@@ -30,91 +30,91 @@ export default createStore({
   actions: {
     login({ commit }, authData) {
       axios
-        .post("auth/login", {
-          mobile_or_email: authData.mobile_or_email,
-          password: authData.password,
-          loginType: "admin",
-        })
-        .then((response) => {
-          if (response.data.code == 200) {
-            console.log("hiiiii");
-            const token = "Bearer" + " " + response.data.data.access_token;
+        .get("sanctum/csrf-cookie") // Fetch CSRF first (relative to baseURL, so /api/sanctum/csrf-cookie)
+        .then(() => {
+          axios
+            .post("auth/login", {
+              mobile_or_email: authData.mobile_or_email,
+              password: authData.password,
+              loginType: "admin",
+            })
+            .then((response) => {
+              if (response.data.code == 200) {
+                console.log("hiiiii");
+                const token = "Bearer" + " " + response.data.data.access_token;
 
-            // Update axios headers immediately after getting token
-            axios.defaults.headers.common["Authorization"] = token;
-            axios.defaults.headers.common["lang"] = "ar";
+                // Update axios headers immediately after getting token
+                axios.defaults.headers.common["Authorization"] = token;
+                axios.defaults.headers.common["lang"] = "ar";
 
-            // Save to localStorage
-            localStorage.setItem("token", token);
-            localStorage.setItem("role", response.data.data.user.role.type);
-            localStorage.setItem("fullName", response.data.data.user.name);
-            localStorage.setItem("email", response.data.data.user.email);
-            localStorage.setItem("languageUniversal", "ar");
+                // Save to localStorage
+                localStorage.setItem("token", token);
+                localStorage.setItem("role", response.data.data.user.role.type);
+                localStorage.setItem("fullName", response.data.data.user.name);
+                localStorage.setItem("email", response.data.data.user.email);
+                localStorage.setItem("languageUniversal", "ar");
 
-            const role = response.data.data.user.role.type;
+                const role = response.data.data.user.role.type;
 
-            // Now fetch dashboard with updated axios instance
-            console.log("About to fetch dashboard, token:", token);
-            console.log("Axios baseURL:", axios.defaults.baseURL);
+                // Now fetch dashboard with updated axios instance
+                console.log("About to fetch dashboard, token:", token);
+                console.log("Axios baseURL:", axios.defaults.baseURL);
 
-            axios
-              .get("admin/dashboard")
-              .then((dashResponse) => {
-                // console.log("Dashboard response:", dashResponse);
-                // console.log(
-                //   "Dashboard response code:",
-                //   dashResponse.data.code
-                // );
-                // console.log(
-                //   "Dashboard response type:",
-                //   typeof dashResponse.data
-                // );
+                axios
+                  .get("admin/dashboard")
+                  .then((dashResponse) => {
+                    if (dashResponse.data.code == 200) {
+                      let dashboard = dashResponse.data.data;
+                      dashboard.languageUniversal = "ar";
+                      commit("dashboard", dashboard);
+                      localStorage.setItem(
+                        "dashboard",
+                        JSON.stringify(dashboard)
+                      );
+                      commit("authUser", {
+                        token: token,
+                      });
+                      commit("loginFailureData", true);
 
-                if (dashResponse.data.code == 200) {
-                  let dashboard = dashResponse.data.data;
-                  dashboard.languageUniversal = "ar";
-                  commit("dashboard", dashboard);
-                  localStorage.setItem("dashboard", JSON.stringify(dashboard));
-                  commit("authUser", {
-                    token: token,
+                      console.log("About to redirect, role:", role);
+
+                      // Redirect based on role
+                      if (role == "admin") {
+                        window.location.href = "/";
+                      } else if (role == "button_operator") {
+                        window.location.href = "/button-case";
+                      } else if (role == "sewing_worker") {
+                        window.location.href = "/sewing-case";
+                      } else if (role == "shear_factor") {
+                        window.location.href = "/cut-case";
+                      } else if (role == "seller") {
+                        window.location.href = "/orders";
+                      } else {
+                        window.location.href = "/login";
+                      }
+                    } else {
+                      console.log(
+                        "Dashboard response code not 200:",
+                        dashResponse.data.code
+                      );
+                    }
+                  })
+                  .catch((error) => {
+                    console.log("Dashboard error:", error);
+                    console.log("Dashboard error response:", error.response);
+                    console.log("Dashboard error message:", error.message);
+                    // Even if dashboard fails, you might want to redirect
                   });
-                  commit("loginFailureData", true);
-
-                  console.log("About to redirect, role:", role);
-
-                  // Redirect based on role
-                  if (role == "admin") {
-                    window.location.href = "/";
-                  } else if (role == "button_operator") {
-                    window.location.href = "/button-case";
-                  } else if (role == "sewing_worker") {
-                    window.location.href = "/sewing-case";
-                  } else if (role == "shear_factor") {
-                    window.location.href = "/cut-case";
-                  } else if (role == "seller") {
-                    window.location.href = "/orders";
-                  } else {
-                    window.location.href = "/login";
-                  }
-                } else {
-                  console.log(
-                    "Dashboard response code not 200:",
-                    dashResponse.data.code
-                  );
-                }
-              })
-              .catch((error) => {
-                console.log("Dashboard error:", error);
-                console.log("Dashboard error response:", error.response);
-                console.log("Dashboard error message:", error.message);
-                // Even if dashboard fails, you might want to redirect
-              });
-          } else if (response.data.code == "-4") {
-            commit("loginFailureData", false);
-          }
+              } else if (response.data.code == "-4") {
+                commit("loginFailureData", false);
+              }
+            })
+            .catch((error) => {
+              console.log("Login error:", error.response);
+            });
         })
         .catch((error) => {
-          console.log("Login error:", error.response);
+          console.error("CSRF fetch error:", error);
         });
     },
 
