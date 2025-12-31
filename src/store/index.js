@@ -120,7 +120,7 @@ export default createStore({
         });
 
       axios
-        .post("auth/login", {
+        .post("api/auth/login", {
           mobile_or_email: authData.mobile_or_email,
           password: authData.password,
           loginType: "admin",
