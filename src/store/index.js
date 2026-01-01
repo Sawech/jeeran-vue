@@ -33,13 +33,18 @@ export default createStore({
         .post(
           "auth/login",
           {
-            "Content-Type": "application/json",
-            Host: "jeraan-1.onrender.com",
-          },
-          {
+            // REQUEST BODY
             mobile_or_email: authData.mobile_or_email,
             password: authData.password,
             loginType: "admin",
+          },
+          {
+            // CONFIG (optional - axios defaults usually work)
+            headers: {
+              "Content-Type": "application/json",
+              Accept: "application/json",
+              Host: "jeraan-1.onrender.com",
+            },
           }
         )
         .then((response) => {
