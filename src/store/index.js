@@ -32,11 +32,10 @@ export default createStore({
       axios
         .post(
           "auth/login",
-          // {
-          //   "Content-Type": "application/json",
-          //   "Access-Control-Allow-Origin": "*",
-          //   Host: "jeraan-1.onrender.com",
-          // },
+          {
+            "Content-Type": "application/json",
+            Host: "jeraan-1.onrender.com",
+          },
           {
             mobile_or_email: authData.mobile_or_email,
             password: authData.password,
