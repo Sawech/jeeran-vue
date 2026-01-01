@@ -40,11 +40,11 @@ export default createStore({
           },
           {
             // CONFIG (optional - axios defaults usually work)
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              // Host: "jeraan-1.onrender.com",
-            },
+            // headers: {
+            //   "Content-Type": "application/json",
+            //   Accept: "application/json",
+            //   // Host: "jeraan-1.onrender.com",
+            // },
           }
         )
         .then((response) => {
