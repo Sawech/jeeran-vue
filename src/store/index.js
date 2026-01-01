@@ -43,7 +43,7 @@ export default createStore({
             headers: {
               "Content-Type": "application/json",
               Accept: "application/json",
-              Host: "jeraan-1.onrender.com",
+              // Host: "jeraan-1.onrender.com",
             },
           }
         )
