@@ -102,7 +102,7 @@ export default createStore({
                 } else {
                   console.log(
                     "Dashboard response code not 200:",
-                    dashResponse.data.code
+                    dashResponse.data
                   );
                 }
               })
