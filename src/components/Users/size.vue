@@ -42,6 +42,7 @@
                   </select>
                 </div>
                 <div v-for="size in sizes" :key="size" class="mb-10 fv-row">
+                  {{ size.name }}
                   <input
                     type="text"
                     name="name"
