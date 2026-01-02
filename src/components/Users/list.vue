@@ -154,7 +154,7 @@
                     </router-link>
                     <delete
                       :id="list.id"
-                      link="admin/user/delete"
+                      link="admin/user/delete`"
                       method="POST"
                       @deleted="remove(index)"
                     ></delete>

@@ -33,7 +33,7 @@ export default {
           if (result.isConfirmed) {
             this.$axios({
               method: this.method,
-              url: !this.id ? this.link : this.link + "?order_id=" + this.id,
+              url: !this.id ? this.link : this.link + "?id=" + this.id,
             }).then((response) => {
               if (response.data.code == 200) {
                 this.$emit("deleted");
