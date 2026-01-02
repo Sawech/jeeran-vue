@@ -169,8 +169,8 @@ export default {
           this.sizes = response.data.data.size_types;
 
           this.sizes.forEach((value, index) => {
-            if (value.size_type_admin.length) {
-              this.sizes[index].value = value.size_type_admin[0].value;
+            if (value.size_type_user.length) {
+              this.sizes[index].value = value.size_type_user[0].value;
             }
           });
 
